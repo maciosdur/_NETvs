@@ -1,0 +1,94 @@
+﻿body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+}
+
+form {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+button {
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin-top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+    button:hover {
+        background-color: #3498db;
+    }
+
+table {
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    padding: 10px 15px;
+    border: 1px solid #bdc3c7;
+    text-align: center;
+}
+
+    th.header {
+        background-color: #34495e;
+        color: #ecf0f1;
+    }
+
+    td.zero {
+        background-color: #1abc9c;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    td.one {
+        background-color: #e74c3c;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    td.two {
+        background-color: #ce3491;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+p.alert {
+    color: #c0392b;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+}
+
+a {
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #2980b9;
+    font-weight: bold;
+}
+
+    a:hover {
+        color: #3498db;
+    }
