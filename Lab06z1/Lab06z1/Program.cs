@@ -96,27 +96,20 @@ class Program
         int minWidth = 20
     )
     {
-        // Najdłuższy napis
+
         int textWidth = Math.Max(line1.Length, line2.Length);
-
-        // Całkowita szerokość wnętrza (bez obramowania)
         int innerWidth = Math.Max(minWidth - 2 * borderWidth, textWidth);
-
-        // Całkowita szerokość wizytówki
         int totalWidth = innerWidth + 2 * borderWidth;
 
         // Rysowanie górnej ramki
         for (int i = 0; i < borderWidth; i++)
             Console.WriteLine(new string(borderChar, totalWidth));
 
-        // Linia 1 – wycentrowana
         Console.WriteLine(
             new string(borderChar, borderWidth)
             + CenterText(line1, innerWidth)
             + new string(borderChar, borderWidth)
         );
-
-        // Linia 2 – wycentrowana
         Console.WriteLine(
             new string(borderChar, borderWidth)
             + CenterText(line2, innerWidth)
@@ -157,7 +150,7 @@ class Program
                     break;
 
                 case int:
-                    // int nieparzysty – nie liczymy, ale też nie jest „inne”
+                   
                     break;
 
                 case double d when d > 0:
@@ -165,7 +158,7 @@ class Program
                     break;
 
                 case double:
-                    // double ujemne/zero – ignorujemy
+                   
                     break;
 
                 case string s when s.Length >= 5:
@@ -173,7 +166,7 @@ class Program
                     break;
 
                 case string:
-                    // krótkie stringi – ignorujemy
+                   
                     break;
 
                 default:
