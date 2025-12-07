@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Rozwiązywanie równania";
+}
+
+<h1>Wynik równania</h1>
+
+<div class="@ViewBag.CssClass result-box">
+    @ViewBag.Message
+</div>
+
+<style>
+    .result-box {
+        padding: 20px;
+        margin-top: 20px;
+        font-size: 22px;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+
+    .two {
+        background-color: #A7FFB5;
+        color: #004400;
+        border: 3px solid #009933;
+    }
+
+    .one {
+        background-color: #D6E4FF;
+        color: #002266;
+        border: 3px solid #3366FF;
+    }
+
+    .none {
+        background-color: #FFD6D6;
+        color: #660000;
+        border: 3px solid #CC0000;
+    }
+
+    .infinite {
+        background-color: #FFF3B0;
+        color: #665500;
+        border: 3px solid #FFCC00;
+    }
+</style>

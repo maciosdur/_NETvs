@@ -1,0 +1,70 @@
+﻿@{
+    // Używamy ViewBag.Message i ViewBag.CssClass przekazanych z kontrolera
+    ViewData["Title"] = "Gra Zgadywanka";
+}
+
+<h1>Gra Zgadywanka (Zakres: 0 do @(ViewBag.Range - 1 ))</h1>
+
+<div class="@ViewBag.CssClass result-box">
+    <h2>@ViewBag.Message</h2>
+    @if (ViewBag.Attempt != null)
+    {
+        <p>To Twoja **@ViewBag.Attempt**. próba.</p>
+    }
+</div>
+
+<style>
+    .result-box {
+        padding: 25px;
+        margin-top: 20px;
+        border-radius: 8px;
+        font-size: 18px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border-left: 6px solid;
+    }
+
+    h2 {
+        margin-top: 0;
+        font-size: 1.5em;
+    }
+
+    /* --- STYLI DLA POSZCZEGÓLNYCH STANÓW --- */
+
+    .set-state { /* Ustawienie zakresu */
+        background-color: #e6f7ff;
+        color: #005082;
+        border-left-color: #3399ff;
+    }
+
+    .draw-state { /* Nowe losowanie */
+        background-color: #fffbe6;
+        color: #665200;
+        border-left-color: #ffcc00;
+    }
+
+    .win-state { /* Zgadnięcie */
+        background-color: #e6ffec;
+        color: #006622;
+        border-left-color: #00b33c;
+    }
+
+    .low-state { /* Za mała */
+        background-color: #ffe6e6;
+        color: #990000;
+        border-left-color: #ff3333;
+    }
+
+    .high-state { /* Za duża */
+        background-color: #f0e6ff;
+        color: #4d0099;
+        border-left-color: #9933ff;
+    }
+
+    .error-state { /* Błąd */
+        background-color: #ffcccc;
+        color: #cc0000;
+        border-left-color: #ff0000;
+        font-weight: bold;
+    }
+
+</style>
