@@ -1,5 +1,5 @@
-﻿using lab09.Interfaces; // Używamy naszego interfejsu
-using lab09.Models;      // Używamy klasy Article
+﻿using lab09.Interfaces; 
+using lab09.Models;      
 using Microsoft.AspNetCore.Mvc;
 
 namespace lab09.Controllers
@@ -8,27 +8,19 @@ namespace lab09.Controllers
     {
         private readonly IArticlesContext _context;
 
-        // Wstrzykiwanie zależności (DI) - Kontener serwisów automatycznie 
-        // dostarczy zaimplementowany serwis (ListArticlesContext lub DictionaryArticlesContext)
+        
         public ArticlesController(IArticlesContext context)
         {
             _context = context;
         }
 
-        // ---------------------------------------------
-        // A. READ: Index (Lista wszystkich towarów)
-        // GET: /Articles
-        // ---------------------------------------------
+
         public IActionResult Index()
         {
             var articles = _context.GetAllArticles();
-            return View(articles); // Przekazanie listy Article do widoku
+            return View(articles); 
         }
 
-        // ---------------------------------------------
-        // B. READ: Details (Szczegóły pojedynczego towaru)
-        // GET: /Articles/Details/5
-        // ---------------------------------------------
         public IActionResult Details(int id)
         {
             var article = _context.GetArticleById(id);
@@ -39,35 +31,25 @@ namespace lab09.Controllers
             return View(article);
         }
 
-        // ---------------------------------------------
-        // C. CREATE: Create (Dodawanie nowego towaru)
-        // ---------------------------------------------
 
-        // GET: /Articles/Create
         public IActionResult Create()
         {
-            return View(); // Wyświetlenie pustego formularza
+            return View(); 
         }
 
-        // POST: /Articles/Create
+
         [HttpPost]
-        [ValidateAntiForgeryToken] // Ochrona przed atakami CSRF
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Article article)
         {
-            // Sprawdzenie, czy model jest poprawny (np. czy wymagane pola są wypełnione)
             if (ModelState.IsValid)
             {
                 _context.AddArticle(article);
-                return RedirectToAction(nameof(Index)); // Przekierowanie do listy po dodaniu
+                return RedirectToAction(nameof(Index)); 
             }
-            return View(article); // Powrót do formularza z błędami
+            return View(article); 
         }
 
-        // ---------------------------------------------
-        // D. UPDATE: Edit (Modyfikacja towaru)
-        // ---------------------------------------------
-
-        // GET: /Articles/Edit/5
         public IActionResult Edit(int id)
         {
             var article = _context.GetArticleById(id);
@@ -75,10 +57,9 @@ namespace lab09.Controllers
             {
                 return NotFound();
             }
-            return View(article); // Wyświetlenie formularza wypełnionego danymi
+            return View(article); 
         }
 
-        // POST: /Articles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Article article)
@@ -96,11 +77,7 @@ namespace lab09.Controllers
             return View(article);
         }
 
-        // ---------------------------------------------
-        // E. DELETE: Delete (Usuwanie towaru)
-        // ---------------------------------------------
 
-        // GET: /Articles/Delete/5
         public IActionResult Delete(int id)
         {
             var article = _context.GetArticleById(id);
@@ -108,10 +85,9 @@ namespace lab09.Controllers
             {
                 return NotFound();
             }
-            return View(article); // Wyświetlenie widoku potwierdzającego usunięcie
+            return View(article); 
         }
 
-        // POST: /Articles/Delete/5 (Potwierdzenie usunięcia)
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)

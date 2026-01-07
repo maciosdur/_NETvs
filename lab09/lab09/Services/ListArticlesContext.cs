@@ -5,13 +5,12 @@ namespace lab09.Services
 {
     public class ListArticlesContext : IArticlesContext
     {
-        // Statyczna lista przechowująca towary (in-memory storage)
         private static List<Article> _articles = new List<Article>();
-        private static int _nextId = 1; // Licznik do automatycznego nadawania Id
+        private static int _nextId = 1; 
 
         public void AddArticle(Article article)
         {
-            article.Id = _nextId++; // Nadaj unikalny Id
+            article.Id = _nextId++;
             _articles.Add(article);
         }
 
@@ -26,7 +25,6 @@ namespace lab09.Services
 
         public IEnumerable<Article> GetAllArticles()
         {
-            // Zwracamy kopię, aby uniknąć niekontrolowanej modyfikacji
             return _articles.OrderBy(a => a.Id).ToList();
         }
 
@@ -41,7 +39,6 @@ namespace lab09.Services
 
             if (existingArticle != null)
             {
-                // Aktualizujemy tylko pola, które mogą się zmienić
                 existingArticle.Name = updatedArticle.Name;
                 existingArticle.Price = updatedArticle.Price;
                 existingArticle.ExpirationDate = updatedArticle.ExpirationDate;
