@@ -1,0 +1,66 @@
+﻿@model IEnumerable<lab_10.Models.Article>
+
+@{
+    ViewData["Title"] = "Sklep";
+}
+
+<div class="row mt-4">
+    <div class="col-md-3">
+        <h4 class="mb-3">Kategorie</h4>
+        <div class="list-group shadow-sm">
+            @* Link "Wszystkie" *@
+            <a asp-action="Index" asp-route-id=""
+               class="list-group-item list-group-item-action @(ViewBag.SelectedCategory == null ? "active" : "")">
+                Wszystkie produkty
+            </a>
+
+            @* Dynamiczna lista kategorii z bazy *@
+            @foreach (var cat in ViewBag.Categories)
+            {
+                <a asp-action="Index" asp-route-id="@cat.Id"
+                   class="list-group-item list-group-item-action @(ViewBag.SelectedCategory == cat.Id ? "active" : "")">
+                    @cat.Name
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <h4 class="mb-3">Produkty</h4>
+        <div class="row">
+            @if (!Model.Any())
+            {
+                <div class="col-12">
+                    <p class="alert alert-info">Brak towarów w tej kategorii.</p>
+                </div>
+            }
+
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        @if (!string.IsNullOrEmpty(item.ImagePath))
+                        {
+                            <img src="~/upload/@item.ImagePath" class="card-img-top" alt="@item.Name"
+                                 style="height: 180px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <img src="~/images/no-image.png" class="card-img-top" alt="Brak zdjęcia"
+                                 style="height: 180px; object-fit: cover; opacity: 0.6;">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">@item.Name</h5>
+                            <p class="card-text fw-bold fs-5">@item.Price.ToString("C")</p>
+                            <span class="badge bg-secondary mb-2">@item.Category?.Name</span>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            <a asp-controller="Articles" asp-action="Details" asp-route-id="@item.Id"
+                               class="btn btn-outline-dark btn-sm w-100">Zobacz szczegóły</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

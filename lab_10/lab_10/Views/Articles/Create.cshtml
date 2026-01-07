@@ -1,0 +1,82 @@
+﻿@model lab_10.Models.Article
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Article</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @* 1. KLUCZOWA ZMIANA: Dodano enctype="multipart/form-data" *@
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="ExpirationDate" class="control-label"></label>
+                <input asp-for="ExpirationDate" class="form-control" />
+                <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+            </div>
+
+            @* 2. ZMIANA: Zastąpienie ImagePath polem FormFile dla pliku *@
+            <div class="form-group mb-2">
+                <label asp-for="FormFile" class="control-label">Wybierz zdjęcie towaru</label>
+                <input asp-for="FormFile" type="file" class="form-control" onchange="previewImage(event)" />
+                <span asp-validation-for="FormFile" class="text-danger"></span>
+            </div>
+
+            @* Miejsce na podgląd obrazka (Zadanie z zielonymi ramkami) *@
+            <div class="form-group mb-3">
+                <img id="imagePreview" src="#" alt="Podgląd" style="display:none; max-width:100%; height:auto; border: 1px solid #ccc; padding: 5px;" />
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="CategoryId" class="control-label">Kategoria</label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
+                    <option value="">-- Wybierz kategorię --</option>
+                </select>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    @* 3. SKRYPT JAVASCRIPT: Do podglądu zdjęcia przed wysłaniem *@
+    <script type="text/javascript">
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('imagePreview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+}
