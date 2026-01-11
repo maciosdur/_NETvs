@@ -1,0 +1,56 @@
+﻿@page
+@model lab11.Pages.Shop.IndexModel
+@{
+    ViewData["Title"] = "Sklep";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <h4>Kategorie</h4>
+        <div class="list-group">
+            <a asp-page="./Index" asp-route-id=""
+               class="list-group-item list-group-item-action @(Model.SelectedCategoryId == null ? "active" : "")">
+                Wszystkie
+            </a>
+            @foreach (var cat in Model.Categories)
+            {
+                <a asp-page="./Index" asp-route-id="@cat.Id"
+                   class="list-group-item list-group-item-action @(Model.SelectedCategoryId == cat.Id ? "active" : "")">
+                    @cat.Name
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <h4>Produkty</h4>
+        <div class="row">
+            @foreach (var item in Model.Articles)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        @if (!string.IsNullOrEmpty(item.ImagePath))
+                        {
+                            <img src="~/upload/@item.ImagePath" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <img src="~/images/no-image.png" class="card-img-top" alt="Brak zdjęcia" style="height: 200px; object-fit: cover;">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="card-text text-success font-weight-bold">@item.Price.ToString("C")</p>
+                            <p class="card-text"><small class="text-muted">Kategoria: @item.Category?.Name</small></p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a asp-page="/Articles/Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Szczegóły</a>
+                        </div>
+                        <a asp-page-handler="AddToCart" asp-route-id="@item.Id" class="btn btn-success">
+                            Dodaj do koszyka
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

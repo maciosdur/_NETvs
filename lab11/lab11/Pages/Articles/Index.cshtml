@@ -1,0 +1,68 @@
+﻿@page
+@model lab11.Pages.Articles.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].ExpirationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].ImagePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Article) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpirationDate)
+            </td>
+                <td>
+                    @* LOGIKA OBRAZKA Z POPRZEDNIEGO ZADANIA *@
+                    @if (!string.IsNullOrEmpty(item.ImagePath))
+                    {
+                        <img src="~/upload/@item.ImagePath" alt="Miniatura" style="width: 70px; height: 70px; object-fit: cover; border-radius: 5px;" />
+                    }
+                    else
+                    {
+                        <img src="~/images/no-image.png" alt="Brak zdjęcia" style="width: 70px; height: 70px; object-fit: cover; opacity: 0.5;" />
+                    }
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

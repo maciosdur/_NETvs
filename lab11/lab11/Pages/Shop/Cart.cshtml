@@ -1,0 +1,41 @@
+﻿@page
+@model lab11.Pages.Shop.CartModel
+
+<h2>Twój koszyk</h2>
+
+@if (!Model.CartItems.Any())
+{
+    <div class="alert alert-info">Twój koszyk jest pusty!</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produkt</th>
+                <th>Cena</th>
+                <th>Ilość</th>
+                <th>Suma</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.Article.Name</td>
+                    <td>@item.Article.Price.ToString("C")</td>
+                    <td>@item.Quantity</td>
+                    <td>@((item.Article.Price * item.Quantity).ToString("C"))</td>
+                    <td>
+                        <a asp-page-handler="Increase" asp-route-id="@item.Article.Id" class="btn btn-sm btn-outline-secondary">+</a>
+                        <a asp-page-handler="Decrease" asp-route-id="@item.Article.Id" class="btn btn-sm btn-outline-secondary">-</a>
+                        <a asp-page-handler="Remove" asp-route-id="@item.Article.Id" class="btn btn-sm btn-danger">Usuń</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <h3>Suma całkowita: @Model.TotalSum.ToString("C")</h3>
+}
+<a asp-page="./Index" class="btn btn-primary">Powrót do sklepu</a>
