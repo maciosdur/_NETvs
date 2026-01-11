@@ -1,15 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System;
 
 namespace lab8.Controllers
 {
     public class GameController : Controller
     {
-    
-        private static int RangeN = 100;
-        private static int RandValue;
-        private static int AttemptsCount = 0;
         private static readonly Random Rnd = new Random();
+
+        private int RangeN
+        {
+            get
+            {
+                var val = HttpContext.Session.GetInt32("RangeN");
+                return val ?? 100;
+            }
+            set
+            {
+                HttpContext.Session.SetInt32("RangeN", value);
+            }
+        }
+
+        private int RandValue
+        {
+            get
+            {
+                var val = HttpContext.Session.GetInt32("RandValue");
+                if (val.HasValue) return val.Value;
+                int newVal = Rnd.Next(0, RangeN);
+                HttpContext.Session.SetInt32("RandValue", newVal);
+                return newVal;
+            }
+            set
+            {
+                HttpContext.Session.SetInt32("RandValue", value);
+            }
+        }
+
+        private int AttemptsCount
+        {
+            get
+            {
+                var val = HttpContext.Session.GetInt32("AttemptsCount");
+                return val ?? 0;
+            }
+            set
+            {
+                HttpContext.Session.SetInt32("AttemptsCount", value);
+            }
+        }
 
         [Route("Set,{n}")]
         public IActionResult Set(int n)
@@ -59,7 +98,7 @@ namespace lab8.Controllers
                 ViewBag.Message = $"{guess} - Za mała liczba. Próbuj dalej!";
                 ViewBag.CssClass = "low-state";
             }
-            else 
+            else
             {
                 ViewBag.Message = $"{guess} - Za duża liczba. Próbuj dalej!";
                 ViewBag.CssClass = "high-state";
