@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Http; // Potrzebne do IFormFile
+using Microsoft.AspNetCore.Http; 
 
 namespace lab_10.Models
 {
@@ -22,22 +22,21 @@ namespace lab_10.Models
         [DataType(DataType.Date)]
         public DateTime? ExpirationDate { get; set; }
 
-        // --- NOWE POLA DLA OBRAZKA ---
 
         [Display(Name = "Obrazek")]
-        public string? ImagePath { get; set; } // Ścieżka do pliku (np. "upload/foto1.jpg") zapisana w bazie
+        public string? ImagePath { get; set; }
 
-        [NotMapped] // To pole NIE trafi do bazy danych
+        [NotMapped] 
         [Display(Name = "Wgraj obrazek")]
-        public IFormFile? FormFile { get; set; } // Ten obiekt służy do odebrania pliku z formularza
+        public IFormFile? FormFile { get; set; } 
 
         // --- RELACJA Z KATEGORIĄ ---
 
         [Required(ErrorMessage = "Kategoria jest wymagana.")]
         [Display(Name = "Kategoria")]
-        public int CategoryId { get; set; } // Klucz obcy (Foreign Key)
+        public int CategoryId { get; set; } 
 
         [ForeignKey("CategoryId")]
-        public virtual Category? Category { get; set; } // Właściwość nawigacyjna
+        public virtual Category? Category { get; set; } 
     }
 }

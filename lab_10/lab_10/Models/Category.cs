@@ -11,7 +11,6 @@ namespace lab_10.Models
         [Display(Name = "Nazwa Kategorii")]
         public string Name { get; set; }
 
-        // Relacja: Jedna kategoria ma wiele artykułów
         public virtual ICollection<Article>? Articles { get; set; }
     }
 }

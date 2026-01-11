@@ -10,7 +10,6 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        @* 1. KLUCZOWA ZMIANA: Dodano enctype="multipart/form-data" *@
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -32,14 +31,13 @@
                 <span asp-validation-for="ExpirationDate" class="text-danger"></span>
             </div>
 
-            @* 2. ZMIANA: Zastąpienie ImagePath polem FormFile dla pliku *@
+
             <div class="form-group mb-2">
                 <label asp-for="FormFile" class="control-label">Wybierz zdjęcie towaru</label>
                 <input asp-for="FormFile" type="file" class="form-control" onchange="previewImage(event)" />
                 <span asp-validation-for="FormFile" class="text-danger"></span>
             </div>
 
-            @* Miejsce na podgląd obrazka (Zadanie z zielonymi ramkami) *@
             <div class="form-group mb-3">
                 <img id="imagePreview" src="#" alt="Podgląd" style="display:none; max-width:100%; height:auto; border: 1px solid #ccc; padding: 5px;" />
             </div>

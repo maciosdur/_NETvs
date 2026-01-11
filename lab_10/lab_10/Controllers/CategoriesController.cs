@@ -135,17 +135,40 @@ namespace lab_10.Controllers
         }
 
         // POST: Categories/Delete/5
+    
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _context.Categories
+                .Include(c => c.Articles)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (category != null)
             {
+                string wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+
+                foreach (var article in category.Articles.ToList())
+                {
+
+                    if (!string.IsNullOrEmpty(article.ImagePath))
+                    {
+                        var filePath = Path.Combine(wwwRootPath, "upload", article.ImagePath);
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            System.IO.File.Delete(filePath);
+                        }
+                    }
+
+
+                    _context.Articles.Remove(article);
+                }
+
+
                 _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

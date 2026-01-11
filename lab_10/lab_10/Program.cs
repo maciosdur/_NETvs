@@ -3,16 +3,13 @@ using lab_10.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodaj obs³ugê kontrolerów i widoków
 builder.Services.AddControllersWithViews();
 
-// REJESTRACJA BAZY DANYCH
 builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-// Konfiguracja potoku HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -20,7 +17,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // To pozwala serwowaæ obrazki z wwwroot
+app.UseStaticFiles(); 
 
 app.UseRouting();
 app.UseAuthorization();

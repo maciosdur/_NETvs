@@ -84,7 +84,6 @@ namespace lab_10.Controllers
             {
                 try
                 {
-                    // Pobieramy wersję z bazy, żeby nie stracić ImagePath (bo w Edit go nie zmieniamy)
                     var oldArticle = await _context.Articles.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
                     article.ImagePath = oldArticle.ImagePath;
 

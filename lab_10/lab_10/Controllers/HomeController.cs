@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using lab_10.Models; // Poprawiony namespace
+using lab_10.Models; 
 using Microsoft.AspNetCore.Mvc;
 
-namespace lab_10.Controllers // Poprawiony namespace
+namespace lab_10.Controllers 
 {
     public class HomeController : Controller
     {
