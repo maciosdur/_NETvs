@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using lab11.Data;
 using lab11.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lab11.Pages.Categories
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly MyDbContext _context;

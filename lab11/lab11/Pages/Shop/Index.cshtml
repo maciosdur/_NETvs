@@ -19,16 +19,16 @@
                     @cat.Name
                 </a>
             }
-        </div>
+        </div> 
     </div>
 
     <div class="col-md-9">
         <h4>Produkty</h4>
-        <div class="row">
+        <div class="row" id="articles-container">
             @foreach (var item in Model.Articles)
             {
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
+                <div class="col-md-4 mb-4 article-item">
+                    <div class="card h-100 shadow-sm">
                         @if (!string.IsNullOrEmpty(item.ImagePath))
                         {
                             <img src="~/upload/@item.ImagePath" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;">
@@ -42,15 +42,80 @@
                             <p class="card-text text-success font-weight-bold">@item.Price.ToString("C")</p>
                             <p class="card-text"><small class="text-muted">Kategoria: @item.Category?.Name</small></p>
                         </div>
-                        <div class="card-footer text-center">
+                        <div class="card-footer d-flex flex-column gap-2 bg-white border-top-0">
                             <a asp-page="/Articles/Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">Szczegóły</a>
+                            <a asp-page-handler="AddToCart" asp-route-id="@item.Id" class="btn btn-success">Dodaj do koszyka</a>
                         </div>
-                        <a asp-page-handler="AddToCart" asp-route-id="@item.Id" class="btn btn-success">
-                            Dodaj do koszyka
-                        </a>
                     </div>
                 </div>
             }
         </div>
+
+        <div class="text-center my-4">
+            <button id="load-more-btn" class="btn btn-primary btn-lg px-5 shadow-sm">Pokaż kolejne</button>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        let skip = document.querySelectorAll('.article-item').length; 
+        const take = 3;
+        const categoryId = '@(Model.SelectedCategoryId?.ToString() ?? "")';
+
+        document.getElementById('load-more-btn').addEventListener('click', function () {
+            const btn = this;
+            btn.disabled = true;
+            btn.innerText = "Wczytywanie...";
+
+            let url = `/api/ArticlesApi?skip=${skip}&take=${take}`;
+            if (categoryId !== "") {
+                url += `&categoryId=${categoryId}`;
+            }
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        btn.innerText = "To już wszystkie produkty";
+                        btn.className = "btn btn-secondary disabled px-5";
+                        return;
+                    }
+
+                    const container = document.getElementById('articles-container');
+
+                    data.forEach(item => {
+                        const imgPath = item.imagePath ? `/upload/${item.imagePath}` : '/images/no-image.png';
+
+                        const html = `
+                            <div class="col-md-4 mb-4 article-item">
+                                <div class="card h-100 shadow-sm">
+                                    <img src="${imgPath}" class="card-img-top" alt="${item.name}" style="height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${item.name}</h5>
+                                        <p class="card-text text-success font-weight-bold">${item.price.toLocaleString('pl-PL', { style: 'currency', currency: 'PLN' })}</p>
+                                        <p class="card-text"><small class="text-muted">Kategoria: ${item.category ? item.category.name : 'Brak'}</small></p>
+                                    </div>
+                                    <div class="card-footer d-flex flex-column gap-2 bg-white border-top-0">
+                                        <a href="/Articles/Details?id=${item.id}" class="btn btn-outline-primary btn-sm">Szczegóły</a>
+                                        <a href="/Shop/Index?handler=AddToCart&id=${item.id}" class="btn btn-success">Dodaj do koszyka</a>
+                                    </div>
+                                </div>
+                            </div>`;
+
+                        container.insertAdjacentHTML('beforeend', html);
+                    });
+
+                    skip += data.length;
+                    btn.disabled = false;
+                    btn.innerText = "Pokaż kolejne";
+                })
+                .catch(error => {
+                    console.error('Błąd:', error);
+                    btn.innerText = "Błąd połączenia";
+                    btn.disabled = false;
+                });
+        });
+       
+    </script>
+}

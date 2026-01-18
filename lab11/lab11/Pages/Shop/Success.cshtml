@@ -1,0 +1,41 @@
+﻿@page
+@model lab11.Pages.Shop.SuccessModel
+@{
+    ViewData["Title"] = "Potwierdzenie Zamówienia";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <div style="font-size: 4rem; color: #28a745;">✔️</div>
+        <h1 class="display-4">Dziękujemy za zamówienie!</h1>
+        <p class="lead">Twoje zamówienie zostało pomyślnie złożone i przekazane do realizacji.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Szczegóły dostawy i płatności</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-4 font-weight-bold"><strong>Odbiorca:</strong></div>
+                        <div class="col-sm-8">@Model.Name</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 font-weight-bold"><strong>Adres dostawy:</strong></div>
+                        <div class="col-sm-8">@Model.Address</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 font-weight-bold"><strong>Metoda płatności:</strong></div>
+                        <div class="col-sm-8"><span class="badge badge-info text-dark p-2" style="background-color: #e3f2fd;">@Model.Method</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a asp-page="/Shop/Index" class="btn btn-primary btn-lg">Wróć do sklepu</a>
+            </div>
+        </div>
+    </div>
+</div>

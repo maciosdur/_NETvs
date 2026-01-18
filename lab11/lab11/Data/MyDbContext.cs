@@ -1,11 +1,12 @@
 ﻿using lab11.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Reflection.Emit;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore; 
+using Microsoft.AspNetCore.Identity; 
 
 namespace lab11.Data
 {
-    public class MyDbContext : DbContext
+
+    public class MyDbContext : IdentityDbContext<IdentityUser>
     {
         public MyDbContext(DbContextOptions<MyDbContext> options)
             : base(options)
@@ -25,6 +26,10 @@ namespace lab11.Data
                 new Category { Id = 3, Name = "Książki" },
                 new Category { Id = 4, Name = "Zabawki" }
             );
+
+            modelBuilder.Entity<Article>()
+                .Property(a => a.Price)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }

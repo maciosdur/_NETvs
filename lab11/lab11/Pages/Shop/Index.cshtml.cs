@@ -22,21 +22,21 @@ namespace lab11.Pages.Shop
         public async Task OnGetAsync(int? id)
         {
             SelectedCategoryId = id;
-
             Categories = await _context.Categories.ToListAsync();
 
-            var articlesQuery = _context.Articles.Include(a => a.Category).AsQueryable();
+            var query = _context.Articles.Include(a => a.Category).AsQueryable();
 
             if (id.HasValue)
             {
-                articlesQuery = articlesQuery.Where(a => a.CategoryId == id.Value);
+                query = query.Where(a => a.CategoryId == id);
             }
 
-            Articles = await articlesQuery.ToListAsync();
+            Articles = await query.Take(3).ToListAsync();
         }
 
         public async Task<IActionResult> OnGetAddToCart(int id)
         {
+            if (User.IsInRole("Admin")) return RedirectToPage("/Index");
             string cookieKey = "article" + id;
             string cookieValue = Request.Cookies[cookieKey];
 

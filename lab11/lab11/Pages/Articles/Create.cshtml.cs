@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using lab11.Data;
 using lab11.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lab11.Pages.Articles
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly lab11.Data.MyDbContext _context;

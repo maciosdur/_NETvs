@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using lab11.Data;
 using lab11.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lab11.Pages.Categories
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly lab11.Data.MyDbContext _context;

@@ -1,10 +1,12 @@
 using lab11.Data;
 using lab11.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace lab11.Pages.Shop
 {
+    [AllowAnonymous]
     public class CartModel : PageModel
     {
         private readonly MyDbContext _context;
@@ -19,8 +21,13 @@ namespace lab11.Pages.Shop
         public List<CartItem> CartItems { get; set; } = new();
         public decimal TotalSum { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToPage("/Articles/Index");
+            }
+
             TotalSum = 0;
             CartItems = new List<CartItem>();
 
@@ -48,25 +55,30 @@ namespace lab11.Pages.Shop
 
             // Sortowanie
             CartItems = CartItems.OrderBy(x => x.Article.Name).ToList();
+            return Page();
         }
 
         public IActionResult OnGetIncrease(int id) => ModifyQuantity(id, 1);
         public IActionResult OnGetDecrease(int id) => ModifyQuantity(id, -1);
         public IActionResult OnGetRemove(int id)
         {
+            if (User.IsInRole("Admin")) return RedirectToPage("/Index");
             Response.Cookies.Delete("article" + id);
             return RedirectToPage();
         }
 
         private IActionResult ModifyQuantity(int id, int change)
         {
-            string key = "article" + id;
-            int current = int.Parse(Request.Cookies[key] ?? "0");
-            int newVal = current + change;
+            if (User.IsInRole("Admin")) return RedirectToPage("/Index");
+            else
+            {
+                string key = "article" + id;
+                int current = int.Parse(Request.Cookies[key] ?? "0");
+                int newVal = current + change;
 
-            if (newVal <= 0) Response.Cookies.Delete(key);
-            else Response.Cookies.Append(key, newVal.ToString(), new CookieOptions { Expires = DateTime.Now.AddDays(7) });
-
+                if (newVal <= 0) Response.Cookies.Delete(key);
+                else Response.Cookies.Append(key, newVal.ToString(), new CookieOptions { Expires = DateTime.Now.AddDays(7) });
+            }
             return RedirectToPage();
         }
     }
