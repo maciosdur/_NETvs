@@ -52,14 +52,12 @@ namespace lab11.Pages.Articles
 
             try
             {
-                // LOGIKA ZADANIA 2: Pobieramy stare dane, żeby nie stracić ścieżki do zdjęcia
                 var oldArticle = await _context.Articles
                     .AsNoTracking()
                     .FirstOrDefaultAsync(a => a.Id == Article.Id);
 
                 if (oldArticle != null)
                 {
-                    // Przywracamy starą ścieżkę zdjęcia, bo formularz jej nie wysyła/nie zmienia
                     Article.ImagePath = oldArticle.ImagePath;
                 }
 

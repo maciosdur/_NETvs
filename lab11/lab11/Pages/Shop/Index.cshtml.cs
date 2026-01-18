@@ -15,20 +15,16 @@ namespace lab11.Pages.Shop
             _context = context;
         }
 
-        // W³aœciwoœci zamiast ViewBag
         public IList<Article> Articles { get; set; } = default!;
         public IList<Category> Categories { get; set; } = default!;
         public int? SelectedCategoryId { get; set; }
 
-        // Parametr 'id' zostanie automatycznie wy³apany z adresu URL (np. /Shop?id=5)
         public async Task OnGetAsync(int? id)
         {
             SelectedCategoryId = id;
 
-            // 1. Pobieramy kategorie do menu
             Categories = await _context.Categories.ToListAsync();
 
-            // 2. Budujemy zapytanie o artyku³y
             var articlesQuery = _context.Articles.Include(a => a.Category).AsQueryable();
 
             if (id.HasValue)
@@ -52,14 +48,13 @@ namespace lab11.Pages.Shop
 
             CookieOptions options = new CookieOptions
             {
-                Expires = DateTime.Now.AddDays(7), // Pamiêtaj przez tydzieñ
+                Expires = DateTime.Now.AddDays(7),
                 HttpOnly = true,
                 IsEssential = true
             };
 
             Response.Cookies.Append(cookieKey, count.ToString(), options);
 
-            // Wracamy na tê sam¹ stronê (zachowuj¹c ewentualny filtr kategorii)
             return RedirectToPage("./Index", new { id = SelectedCategoryId });
         }
     }

@@ -22,21 +22,31 @@ namespace lab11.Pages.Shop
         public async Task OnGetAsync()
         {
             TotalSum = 0;
+            CartItems = new List<CartItem>();
+
             foreach (var cookie in Request.Cookies)
             {
                 if (cookie.Key.StartsWith("article"))
                 {
-                    int articleId = int.Parse(cookie.Key.Replace("article", ""));
-                    int quantity = int.Parse(cookie.Value);
-
-                    var article = await _context.Articles.FindAsync(articleId);
-                    if (article != null)
+                    if (int.TryParse(cookie.Key.Replace("article", ""), out int articleId))
                     {
-                        CartItems.Add(new CartItem { Article = article, Quantity = quantity });
-                        TotalSum += article.Price * quantity;
+                        var article = await _context.Articles.FindAsync(articleId);
+
+                        if (article != null)
+                        {
+                            int quantity = int.Parse(cookie.Value);
+                            CartItems.Add(new CartItem { Article = article, Quantity = quantity });
+                            TotalSum += article.Price * quantity;
+                        }
+                        else
+                        {
+                            Response.Cookies.Delete(cookie.Key);
+                        }
                     }
                 }
             }
+
+            // Sortowanie
             CartItems = CartItems.OrderBy(x => x.Article.Name).ToList();
         }
 

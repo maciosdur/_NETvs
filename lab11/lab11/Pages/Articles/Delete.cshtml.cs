@@ -27,7 +27,6 @@ namespace lab11.Pages.Articles
         {
             if (id == null) return NotFound();
 
-            // Dodajemy .Include(a => a.Category), żeby na podsumowaniu było widać nazwę kategorii
             var article = await _context.Articles
                 .Include(a => a.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -61,7 +60,7 @@ namespace lab11.Pages.Articles
             return RedirectToPage("./Index");
         }
 
-        // Metoda pomocnicza przeniesiona 1:1 z Twojego kontrolera MVC
+        // Metoda pomocnicza przeniesiona 1:1 z kontrolera MVC
         private void DeleteImage(string fileName)
         {
             var path = Path.Combine(_hostEnvironment.WebRootPath, "upload", fileName);

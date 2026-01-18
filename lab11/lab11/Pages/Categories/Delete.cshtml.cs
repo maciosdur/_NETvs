@@ -36,14 +36,12 @@ namespace lab11.Pages.Categories
         {
             if (id == null) return NotFound();
 
-            // 1. Znajdź kategorię wraz z przypisanymi do niej artykułami
             var category = await _context.Categories
                 .Include(c => c.Articles)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (category != null)
             {
-                // 2. Przejdź pętlą po wszystkich artykułach w tej kategorii i usuń ich zdjęcia
                 foreach (var article in category.Articles)
                 {
                     if (!string.IsNullOrEmpty(article.ImagePath))
@@ -51,8 +49,6 @@ namespace lab11.Pages.Categories
                         DeleteImage(article.ImagePath);
                     }
                 }
-
-                // 3. Usuń kategorię
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
             }
@@ -60,7 +56,6 @@ namespace lab11.Pages.Categories
             return RedirectToPage("./Index");
         }
 
-        // Metoda pomocnicza do usuwania plików
         private void DeleteImage(string fileName)
         {
             var path = Path.Combine(_hostEnvironment.WebRootPath, "upload", fileName);

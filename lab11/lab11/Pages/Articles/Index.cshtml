@@ -44,7 +44,6 @@
                 @Html.DisplayFor(modelItem => item.ExpirationDate)
             </td>
                 <td>
-                    @* LOGIKA OBRAZKA Z POPRZEDNIEGO ZADANIA *@
                     @if (!string.IsNullOrEmpty(item.ImagePath))
                     {
                         <img src="~/upload/@item.ImagePath" alt="Miniatura" style="width: 70px; height: 70px; object-fit: cover; border-radius: 5px;" />
