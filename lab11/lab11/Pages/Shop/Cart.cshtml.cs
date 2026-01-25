@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace lab11.Pages.Shop
 {
-    [AllowAnonymous]
+    [Authorize(Policy = "NotAdmin")]
     public class CartModel : PageModel
     {
         private readonly MyDbContext _context;
@@ -23,10 +23,7 @@ namespace lab11.Pages.Shop
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToPage("/Articles/Index");
-            }
+           
 
             TotalSum = 0;
             CartItems = new List<CartItem>();

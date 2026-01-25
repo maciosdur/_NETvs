@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Controllers\ArticlesApiController - Copy.cs" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.2" />

@@ -43,7 +43,7 @@ namespace lab11.Controllers
         public async Task<ActionResult<Article>> PostArticle(Article article)
         {
             _context.Articles.Add(article);
-            await _context.Set<Article>().AddAsync(article); // jawne dodanie
+            await _context.Set<Article>().AddAsync(article); 
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetArticle), new { id = article.Id }, article);
         }

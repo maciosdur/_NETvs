@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lab11.Pages.Shop
 {
-    [Authorize] 
+    [Authorize(Policy = "NotAdmin")]
     public class OrderModel : PageModel
     {
         private readonly MyDbContext _context;
@@ -33,7 +33,6 @@ namespace lab11.Pages.Shop
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (User.IsInRole("Admin")) return RedirectToPage("/Index");
 
             await LoadSummary();
 
