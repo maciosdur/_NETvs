@@ -1,0 +1,28 @@
+<app-header></app-header>
+
+<div style="padding: 20px; max-width: 1200px; margin: 0 auto;">
+    <h1>Sklep - Lista 13</h1>
+    
+    <div class="container mt-3">
+        <button class="btn btn-primary" (click)="openModal()">+ Dodaj nowy artykuł</button>
+    </div>
+
+    @if (isModalOpen) {
+    <div class="modal fade show d-block">
+
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Nowy Artykuł</h5>
+            <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <app-article-form (save)="closeModal()"></app-article-form>
+        </div>
+    </div>
+    }
+
+    <div class="container">
+    <app-article-list></app-article-list>
+    </div>
+</div>
+
+<app-footer></app-footer>
