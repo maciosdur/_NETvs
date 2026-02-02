@@ -40,7 +40,7 @@ namespace lab11.Controllers
 
         // POST: api/CategoriesApi
         [HttpPost]
-        [Authorize(Policy = "AdminOnly")]
+        [AllowAnonymous]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
             _context.Categories.Add(category);
@@ -51,7 +51,7 @@ namespace lab11.Controllers
 
         // PUT: api/CategoriesApi/5
         [HttpPut("{id}")]
-        [Authorize(Policy = "AdminOnly")]
+        [AllowAnonymous]
         public async Task<IActionResult> PutCategory(int id, Category category)
         {
             if (id != category.Id)
@@ -82,7 +82,7 @@ namespace lab11.Controllers
 
         // DELETE: api/CategoriesApi/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = "AdminOnly")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);

@@ -1,0 +1,22 @@
+<div class="container mt-4">
+  @if (article()) {
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h3>Szczegóły artykułu: {{ article()?.name }}</h3>
+      </div>
+      <div class="card-body">
+        <p><strong>Identyfikator:</strong> {{ id() }}</p>
+        <p><strong>Kategoria:</strong> <span class="badge bg-info text-dark">{{ article()?.category?.name }}</span></p>
+        <p><strong>Cena:</strong> {{ article()?.price | number:'1.2-2' }} zł</p>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-secondary" routerLink="/articles">Powrót do listy</button>
+      </div>
+    </div>
+  } @else {
+    <div class="alert alert-danger">
+      Nie znaleziono artykułu o identyfikatorze: {{ id() }}
+    </div>
+    <button class="btn btn-primary" routerLink="/articles">Wróć do listy</button>
+  }
+</div>

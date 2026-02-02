@@ -33,7 +33,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAngular", policy => {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,7 +54,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-
+app.UseCors("AllowAngular");
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -69,7 +75,7 @@ using (var scope = app.Services.CreateScope())
         await roleManager.CreateAsync(new IdentityRole(roleName));
     }
 
-    var userEmail = "admin@admin.com";
+    var userEmail = "adminn@admin.com";
     var user = await userManager.FindByEmailAsync(userEmail);
 
     if (user != null)

@@ -1,27 +1,32 @@
 <app-header></app-header>
 
 <div style="padding: 20px; max-width: 1200px; margin: 0 auto;">
-    <h1>Sklep - Lista 13</h1>
-    
-    <div class="container mt-3">
-        <button class="btn btn-primary" (click)="openModal()">+ Dodaj nowy artykuł</button>
-    </div>
+    <h1>Sklep - Lista 14</h1>
 
-    @if (isModalOpen) {
-    <div class="modal fade show d-block">
-
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title">Nowy Artykuł</h5>
-            <button type="button" class="btn-close" (click)="closeModal()"></button>
-            </div>
-            <app-article-form (save)="closeModal()"></app-article-form>
+    @if (showAddButton()) {
+        <div class="container mt-3 mb-3">
+            <button class="btn btn-primary" (click)="openModal()">+ Dodaj nowy artykuł</button>
         </div>
-    </div>
+    }
+
+    @if (showAddButton() && isModalOpen) {
+        <div class="modal fade show d-block" style="background: rgba(0,0,0,0.5)">
+            <div class="modal-dialog"> 
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nowy Artykuł</h5>
+                        <button type="button" class="btn-close" (click)="closeModal()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <app-article-form (save)="closeModal()"></app-article-form>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 
     <div class="container">
-    <app-article-list></app-article-list>
+        <router-outlet></router-outlet>
     </div>
 </div>
 

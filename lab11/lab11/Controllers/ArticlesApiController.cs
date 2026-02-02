@@ -30,36 +30,75 @@ namespace lab11.Controllers
         }
 
         // GET: api/ArticlesApi/5
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Article>> GetArticle(int id)
         {
-            var article = await _context.Articles.FindAsync(id);
-            if (article == null) return NotFound();
+
+            var article = await _context.Articles
+                .Include(a => a.Category)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (article == null)
+            {
+                return NotFound();
+            }
+
             return article;
         }
 
         // POST: api/ArticlesApi
         [HttpPost]
-        public async Task<ActionResult<Article>> PostArticle(Article article)
+        public async Task<ActionResult<Article>> PostArticle([FromBody] Article article)
         {
-            _context.Articles.Add(article);
-            await _context.Set<Article>().AddAsync(article); 
-            await _context.SaveChangesAsync();
+            article.Id = 0;
+
+            article.Category = null;
+
+            _context.Articles.Add(article); 
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return BadRequest(ex.Message);
+            }
+
             return CreatedAtAction(nameof(GetArticle), new { id = article.Id }, article);
         }
 
         // PUT: api/ArticlesApi/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutArticle(int id, Article article)
+        public async Task<IActionResult> PutArticle(int id, [FromBody] Article article) // <--- KROK 1: Dodaj [FromBody]
         {
-            if (id != article.Id) return BadRequest();
+            if (id != article.Id)
+            {
+                return BadRequest($"ID mismatch: URL({id}) != Body({article.Id})");
+            }
+
+            article.Category = null;
+
             _context.Entry(article).State = EntityState.Modified;
-            try { await _context.SaveChangesAsync(); }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.Articles.Any(e => e.Id == id)) return NotFound();
-                else throw;
+                if (!_context.Articles.Any(e => e.Id == id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
+
             return NoContent();
         }
 

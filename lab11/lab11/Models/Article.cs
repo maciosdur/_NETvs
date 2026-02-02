@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Http; 
+using Microsoft.AspNetCore.Http;
+using System.Text.Json.Serialization;
 
 namespace lab11.Models
 {
@@ -28,6 +29,7 @@ namespace lab11.Models
 
         [NotMapped] 
         [Display(Name = "Wgraj obrazek")]
+        [JsonIgnore]
         public IFormFile? FormFile { get; set; } 
 
         // --- RELACJA Z KATEGORIĄ ---

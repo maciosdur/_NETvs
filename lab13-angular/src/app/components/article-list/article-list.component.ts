@@ -24,8 +24,13 @@ import { ArticleItemComponent } from '../article-item/article-item';
 })
 export class ArticleListComponent {
   articleService = inject(ArticleService); 
-
+  articles = this.articleService.articles;
   delete(id: number) {
-    this.articleService.deleteArticle(id);
-  }
+  this.articleService.deleteArticle(id).subscribe({
+    next: () => {
+      console.log('Usunięto artykuł z bazy');
+    },
+    error: (err) => alert('Błąd usuwania: ' + err.message)
+  });
+}
 }
